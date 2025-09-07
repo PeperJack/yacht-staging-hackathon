@@ -152,6 +152,8 @@ def setup_api_client():
         st.error(f"❌ API configuration error: {repr(e)}")
         return None
 
+# ▼▼▼ REMPLACEZ VOTRE FONCTION PAR CELLE-CI ▼▼▼
+
 def yacht_interior_staging(client, image, styling_prompt, custom_prompt=""):
     """
     Transforms the yacht interior with Google Gemini
@@ -177,14 +179,12 @@ CRITICAL REQUIREMENTS FOR YACHT INTERIOR STAGING:
 Style: Professional yacht interior photography, luxury marine interior design, magazine quality, perfect lighting, high-end yacht staging for marketing purposes."""
 
     try:
-        # CORRECTION : On utilise "client.models.generate_content"
+        # CORRECTION : On enlève "generation_config" et on met les paramètres directement
         response = client.models.generate_content(
-            model="gemini-1.5-flash", # Utilisation d'un nom de modèle standard
-            contents=[image, base_prompt], # L'image doit souvent être en premier
-            generation_config=types.GenerationConfig(
-                temperature=0.3,
-                max_output_tokens=4096
-            )
+            model="gemini-1.5-flash",
+            contents=[image, base_prompt],
+            temperature=0.3,              # <--- Paramètre direct
+            max_output_tokens=4096          # <--- Paramètre direct
         )
         
         # Extracting the image from the response
