@@ -154,12 +154,14 @@ def setup_api_client():
 
 # ▼▼▼ REMPLACEZ VOTRE FONCTION PAR CELLE-CI ▼▼▼
 
+# ▼▼▼ REMPLACEZ VOTRE FONCTION PAR CELLE-CI ▼▼▼
+
 def yacht_interior_staging(client, image, styling_prompt, custom_prompt=""):
     """
     Transforms the yacht interior with Google Gemini
     Based on the official Google Home Staging approach
     """
-    
+
     # Optimized prompt for yacht interior design
     base_prompt = f"""Using the provided image of a yacht interior space, transform the decoration and styling while maintaining the architectural structure.
 
@@ -179,14 +181,17 @@ CRITICAL REQUIREMENTS FOR YACHT INTERIOR STAGING:
 Style: Professional yacht interior photography, luxury marine interior design, magazine quality, perfect lighting, high-end yacht staging for marketing purposes."""
 
     try:
-        # CORRECTION : On enlève "generation_config" et on met les paramètres directement
+        # CORRECTION FINALE : Le paramètre s'appelle "config"
+        # et l'objet est "types.GenerateContentConfig"
         response = client.models.generate_content(
             model="gemini-1.5-flash",
             contents=[image, base_prompt],
-            temperature=0.3,              # <--- Paramètre direct
-            max_output_tokens=4096          # <--- Paramètre direct
+            config=types.GenerateContentConfig( # <--- La syntaxe correcte !
+                temperature=0.3,
+                max_output_tokens=4096
+            )
         )
-        
+
         # Extracting the image from the response
         if response.candidates and response.candidates[0].content.parts:
             image_part = response.candidates[0].content.parts[0]
@@ -194,9 +199,9 @@ Style: Professional yacht interior photography, luxury marine interior design, m
                 image_data = image_part.inline_data.data
                 generated_image = Image.open(BytesIO(image_data))
                 return generated_image, None
-        
+
         return None, "No image generated in the response"
-            
+
     except Exception as e:
         return None, f"Error during generation: {repr(e)}"
     
