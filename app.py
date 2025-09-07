@@ -34,7 +34,7 @@ st.markdown("""
 
 .main {
     font-family: 'Montserrat', sans-serif;
-    background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+    background: linear-gradient(135deg, #18181b 0%, #23272f 100%);
     min-height: 100vh;
 }
 
@@ -91,7 +91,8 @@ st.markdown("""
 }
 
 .service-card {
-    background: white;
+    background: #111111;
+    color: #fff;
     border-radius: 16px;
     padding: 2rem;
     margin: 1rem 0;
@@ -108,7 +109,8 @@ st.markdown("""
 }
 
 .style-option {
-    background: linear-gradient(135deg, #ffffff 0%, #f8fafc 100%);
+    background: linear-gradient(135deg, #18181b 0%, #23272f 100%);
+    color: #fff;
     border: 2px solid #e2e8f0;
     border-radius: 12px;
     padding: 1.5rem;
@@ -121,18 +123,20 @@ st.markdown("""
 
 .style-option:hover {
     border-color: #2980b9;
-    background: linear-gradient(135deg, #f0f9ff 0%, #e0f2fe 100%);
+    background: linear-gradient(135deg, #23272f 0%, #18181b 100%);
     transform: translateX(5px);
 }
 
 .style-option.selected {
     border-color: #2980b9;
-    background: linear-gradient(135deg, #dbeafe 0%, #bfdbfe 100%);
+    background: linear-gradient(135deg, #23272f 0%, #18181b 100%);
     box-shadow: 0 4px 20px rgba(41, 128, 185, 0.3);
+    color: #fff;
 }
 
 .result-showcase {
-    background: linear-gradient(135deg, #ffffff 0%, #f0fdf4 100%);
+    background: linear-gradient(135deg, #18181b 0%, #23272f 100%);
+    color: #fff;
     border: 3px solid #22c55e;
     border-radius: 20px;
     padding: 2rem;
@@ -140,7 +144,8 @@ st.markdown("""
 }
 
 .upload-section {
-    background: white;
+    background: #111111;
+    color: #fff;
     border: 3px dashed #cbd5e1;
     border-radius: 16px;
     padding: 2rem;
@@ -151,7 +156,7 @@ st.markdown("""
 
 .upload-section:hover {
     border-color: #2980b9;
-    background: #f0f9ff;
+    background: #23272f;
 }
 
 .stats-container {
@@ -181,7 +186,8 @@ st.markdown("""
 }
 
 .feature-item {
-    background: white;
+    background: #18181b;
+    color: #fff;
     padding: 1.5rem;
     border-radius: 12px;
     text-align: center;
@@ -212,7 +218,8 @@ st.markdown("""
 }
 
 .security-notice {
-    background: linear-gradient(135deg, #eff6ff 0%, #dbeafe 100%);
+    background: linear-gradient(135deg, #18181b 0%, #23272f 100%);
+    color: #fff;
     border-left: 4px solid #3b82f6;
     padding: 1.5rem;
     margin: 1rem 0;
