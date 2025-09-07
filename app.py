@@ -177,10 +177,10 @@ CRITICAL REQUIREMENTS FOR YACHT INTERIOR STAGING:
 Style: Professional yacht interior photography, luxury marine interior design, magazine quality, perfect lighting, high-end yacht staging for marketing purposes."""
 
     try:
-        # Using "client.generate_content" with the specified model name
-        response = client.generate_content(
-            model="models/gemini-1.5-flash-latest", # Specify model here
-            contents=[base_prompt, image],
+        # CORRECTION : On utilise "client.models.generate_content"
+        response = client.models.generate_content(
+            model="gemini-1.5-flash", # Utilisation d'un nom de modèle standard
+            contents=[image, base_prompt], # L'image doit souvent être en premier
             generation_config=types.GenerationConfig(
                 temperature=0.3,
                 max_output_tokens=4096
@@ -199,8 +199,7 @@ Style: Professional yacht interior photography, luxury marine interior design, m
             
     except Exception as e:
         return None, f"Error during generation: {repr(e)}"
-# ▲▲▲ FIN DU CODE CORRIGÉ ▲▲▲
-
+    
 def save_image_with_metadata(image, original_filename, styling_option):
     """Saves the image with metadata"""
     timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
