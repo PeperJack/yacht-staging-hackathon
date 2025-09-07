@@ -158,10 +158,9 @@ def setup_api_client():
 def yacht_interior_staging(client, image, styling_prompt, custom_prompt=""):
     """
     Transforms the yacht interior with Google Gemini
-    Based on the official Google Home Staging documentation and examples.
+    Based on the official Google Home Staging documentation and user's original script logic.
     """
     
-    # Optimized prompt for yacht interior design
     base_prompt = f"""Using the provided image of a yacht interior space, transform the decoration and styling while maintaining the architectural structure.
 
 {styling_prompt}
@@ -180,12 +179,11 @@ CRITICAL REQUIREMENTS FOR YACHT INTERIOR STAGING:
 Style: Professional yacht interior photography, luxury marine interior design, magazine quality, perfect lighting, high-end yacht staging for marketing purposes."""
 
     try:
-        # CORRECTION : On utilise la syntaxe simple de l'exemple officiel
-        # Le nom du modèle est passé directement, sans "models/"
-        model_name = "models/gemini-2.5-flash"  # Updated model name
+        # Using the exact model from the working example
+        model_id = "models/gemini-2.5-flash-preview-04-17" 
         
         response = client.models.generate_content(
-            model=model_name,
+            model=model_id,
             contents=[image, base_prompt],
             config=types.GenerateContentConfig(
                 temperature=0.3,
@@ -193,25 +191,22 @@ Style: Professional yacht interior photography, luxury marine interior design, m
             )
         )
         
-        # Extracting the image from the response
-        if response.candidates and response.candidates[0].content.parts:
-            image_part = response.candidates[0].content.parts[0]
-            if image_part.inline_data:
-                image_data = image_part.inline_data.data
-                generated_image = Image.open(BytesIO(image_data))
-                return generated_image, None
-        
-        # Fallback in case the structure is different
-        if hasattr(response, 'parts') and response.parts and response.parts[0].mime_type.startswith("image/"):
-             image_data = response.parts[0].data
-             generated_image = Image.open(BytesIO(image_data))
-             return generated_image, None
+        # CORRECTION : Reverting to the image extraction logic from your original script.
+        # This is the most reliable method for your library version.
+        image_parts = [
+            part.inline_data.data
+            for part in response.candidates[0].content.parts
+            if hasattr(part, 'inline_data') and part.inline_data
+        ]
 
-        # If no image is found, check for a text-based error from the model
-        if hasattr(response, 'text') and response.text:
-             return None, f"Model returned text instead of an image: {response.text[:200]}..."
-
-        return None, "No image generated in the response or unexpected format."
+        if image_parts:
+            generated_image = Image.open(BytesIO(image_parts[0]))
+            return generated_image, None
+        else:
+            # If no image is found, check for a text message (error, etc.)
+            if hasattr(response, 'text') and response.text:
+                return None, f"Model returned text instead of an image: {response.text[:200]}..."
+            return None, "No image found in the API response."
             
     except Exception as e:
         return None, f"Error during generation: {repr(e)}"
