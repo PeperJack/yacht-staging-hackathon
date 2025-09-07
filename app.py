@@ -161,7 +161,7 @@ def yacht_interior_staging(client, image, styling_prompt, custom_prompt=""):
     Transforms the yacht interior with Google Gemini
     Based on the official Google Home Staging approach
     """
-    
+
     # Optimized prompt for yacht interior design
     base_prompt = f"""Using the provided image of a yacht interior space, transform the decoration and styling while maintaining the architectural structure.
 
@@ -181,55 +181,26 @@ CRITICAL REQUIREMENTS FOR YACHT INTERIOR STAGING:
 Style: Professional yacht interior photography, luxury marine interior design, magazine quality, perfect lighting, high-end yacht staging for marketing purposes."""
 
     try:
-        # Tenteons d'utiliser le modèle directement via client.get_model
-        # C'est une approche plus robuste pour les clients plus anciens.
-        model_instance = client.get_model("gemini-1.5-flash") # Ou "gemini-pro-vision" si vous voulez tester
-        
-        # Le contenu doit être structuré comme une liste de "parts"
-        # Les modèles Gemini sont multimodaux, et la meilleure pratique est d'utiliser genai.upload_file
-        # ou de s'assurer que l'image est bien un objet Image du type attendu.
-        
-        # Pour Gemini 1.5 Flash et l'ancienne API, on passe souvent l'image directement,
-        # puis le texte.
-        contents_payload = [image, base_prompt]
-        
-        response = model_instance.generate_content(
-            contents=contents_payload,
-            generation_config=types.GenerationConfig( # Ici on revient à generation_config si votre code original l'avait
+        # CORRECTION FINALE : Le paramètre s'appelle "config"
+        # et l'objet est "types.GenerateContentConfig"
+        response = client.models.generate_content(
+            model="gemini-2.5-flash",
+            contents=[image, base_prompt],
+            config=types.GenerateContentConfig( # <--- La syntaxe correcte !
                 temperature=0.3,
                 max_output_tokens=4096
             )
         )
-        
-        # Debugging: Afficher la réponse brute pour comprendre ce qui arrive
-        # st.write("Raw API Response:", response) 
-        
-        # Vérification de la structure de la réponse
-        # L'ancienne API peut avoir une structure différente, il faut être flexible.
-        if response.parts and response.parts[0].mime_type.startswith("image/"):
-            image_data = response.parts[0].data
-            generated_image = Image.open(BytesIO(image_data))
-            return generated_image, None
-        elif response.candidates and response.candidates[0].content.parts:
-            # Cette partie est pour les réponses plus récentes (que j'avais mise précédemment)
+
+        # Extracting the image from the response
+        if response.candidates and response.candidates[0].content.parts:
             image_part = response.candidates[0].content.parts[0]
             if image_part.inline_data:
                 image_data = image_part.inline_data.data
                 generated_image = Image.open(BytesIO(image_data))
                 return generated_image, None
-            elif hasattr(image_part, 'text') and "Error" in image_part.text:
-                return None, f"Model returned an error: {image_part.text}"
-            else:
-                 # Si ce n'est pas une image, voir si c'est du texte
-                if hasattr(response.candidates[0].content.parts[0], 'text'):
-                    return None, f"Model returned text instead of image: {response.candidates[0].content.parts[0].text[:200]}..."
-                
-        # Si aucune image n'est trouvée après toutes les vérifications
-        return None, "No image generated in the response or unexpected response format."
-            
-    except Exception as e:
-        return None, f"Error during generation: {repr(e)}. Raw response: {response.text if 'response' in locals() else 'No response object'}"
 
+        return None, "No image generated in the response"
 
     except Exception as e:
         return None, f"Error during generation: {repr(e)}"
