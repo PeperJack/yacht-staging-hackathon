@@ -182,7 +182,7 @@ Style: Professional yacht interior photography, luxury marine interior design, m
     try:
         # CORRECTION : On utilise la syntaxe simple de l'exemple officiel
         # Le nom du modèle est passé directement, sans "models/"
-        model_name = "models/gemini-2.5-flash-preview-04-17"
+        model_name = "models/gemini-2.5-flash"  # Updated model name
         
         response = client.models.generate_content(
             model=model_name,
