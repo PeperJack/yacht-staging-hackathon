@@ -180,7 +180,7 @@ Style: Professional yacht interior photography, luxury marine interior design, m
 
     try:
         # Using the exact model from the working example
-        model_id = "models/gemini-2.5-flash-preview-04-17" 
+        model_id = "models/gemini-2.5-flash" 
         
         response = client.models.generate_content(
             model=model_id,
