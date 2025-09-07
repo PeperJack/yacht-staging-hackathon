@@ -155,6 +155,10 @@ def setup_api_client():
 
 # ▼▼▼ REMPLACEZ VOTRE FONCTION PAR CETTE DERNIÈRE VERSION ▼▼▼
 
+# ▼▼▼ REMPLACEZ VOTRE FONCTION PAR CETTE VERSION PLUS SÉCURISÉE ▼▼▼
+
+# ▼▼▼ REMPLACEZ VOTRE FONCTION PAR CETTE VERSION DÉFINITIVE ▼▼▼
+
 def yacht_interior_staging(client, image, styling_prompt, custom_prompt=""):
     """
     Transforms the yacht interior with Google Gemini
@@ -176,34 +180,42 @@ CRITICAL REQUIREMENTS FOR YACHT INTERIOR STAGING:
 - Maintain yacht-specific elements like portholes, built-in features, marine lighting
 - Create an aspirational interior that appeals to luxury yacht buyers/charterers
 
-Style: Professional yacht interior photography, luxury marine interior design, magazine quality, perfect lighting, high-end yacht staging for marketing purposes."""
+Style: Professional yacht interior photography, luxury marine interior design, magazine quality, perfect lighting, high-end yacht staging for marketing purposes.
+""" # Note: J'ai enlevé le dernier ">" superflu ici, juste pour la propreté.
 
     try:
-        # Using the exact model from the working example
-        model_id = "models/gemini-2.5-flash" 
+        model_id = "gemini-2.5-flash-image-preview"
         
         response = client.models.generate_content(
             model=model_id,
             contents=[image, base_prompt],
             config=types.GenerateContentConfig(
                 temperature=0.3,
-                max_output_tokens=4096
+                max_output_tokens=4096,
+                # NOUVEAU : Demander explicitement une image comme type de réponse
+                response_mime_type="image/png" 
             )
         )
         
-        # CORRECTION : Reverting to the image extraction logic from your original script.
-        # This is the most reliable method for your library version.
-        image_parts = [
-            part.inline_data.data
-            for part in response.candidates[0].content.parts
-            if hasattr(part, 'inline_data') and part.inline_data
-        ]
+        # Initialiser une liste vide pour les parties d'image
+        image_parts = []
+        
+        if (response.candidates and 
+            response.candidates[0].content and
+            response.candidates[0].content.parts):
+            
+            image_parts = [
+                part.inline_data.data
+                for part in response.candidates[0].content.parts
+                if hasattr(part, 'inline_data') and part.inline_data
+            ]
 
         if image_parts:
             generated_image = Image.open(BytesIO(image_parts[0]))
             return generated_image, None
         else:
-            # If no image is found, check for a text message (error, etc.)
+            # Si aucune image n'est trouvée, vérifier s'il y a un message texte (erreur, etc.)
+            # Cette partie ne devrait plus être atteinte si response_mime_type fonctionne.
             if hasattr(response, 'text') and response.text:
                 return None, f"Model returned text instead of an image: {response.text[:200]}..."
             return None, "No image found in the API response."
