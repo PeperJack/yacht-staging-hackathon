@@ -152,16 +152,15 @@ def setup_api_client():
         st.error(f"❌ API configuration error: {repr(e)}")
         return None
 
-# ▼▼▼ REMPLACEZ VOTRE FONCTION PAR CELLE-CI ▼▼▼
 
-# ▼▼▼ REMPLACEZ VOTRE FONCTION PAR CELLE-CI ▼▼▼
+# ▼▼▼ REMPLACEZ VOTRE FONCTION PAR CETTE DERNIÈRE VERSION ▼▼▼
 
 def yacht_interior_staging(client, image, styling_prompt, custom_prompt=""):
     """
     Transforms the yacht interior with Google Gemini
-    Based on the official Google Home Staging approach
+    Based on the official Google Home Staging documentation and examples.
     """
-
+    
     # Optimized prompt for yacht interior design
     base_prompt = f"""Using the provided image of a yacht interior space, transform the decoration and styling while maintaining the architectural structure.
 
@@ -181,17 +180,19 @@ CRITICAL REQUIREMENTS FOR YACHT INTERIOR STAGING:
 Style: Professional yacht interior photography, luxury marine interior design, magazine quality, perfect lighting, high-end yacht staging for marketing purposes."""
 
     try:
-        # CORRECTION FINALE : Le paramètre s'appelle "config"
-        # et l'objet est "types.GenerateContentConfig"
+        # CORRECTION : On utilise la syntaxe simple de l'exemple officiel
+        # Le nom du modèle est passé directement, sans "models/"
+        model_name = "models/gemini-2.5-flash-preview-04-17"
+        
         response = client.models.generate_content(
-            model="gemini-2.5-flash",
+            model=model_name,
             contents=[image, base_prompt],
-            config=types.GenerateContentConfig( # <--- La syntaxe correcte !
+            config=types.GenerateContentConfig(
                 temperature=0.3,
                 max_output_tokens=4096
             )
         )
-
+        
         # Extracting the image from the response
         if response.candidates and response.candidates[0].content.parts:
             image_part = response.candidates[0].content.parts[0]
@@ -199,9 +200,19 @@ Style: Professional yacht interior photography, luxury marine interior design, m
                 image_data = image_part.inline_data.data
                 generated_image = Image.open(BytesIO(image_data))
                 return generated_image, None
+        
+        # Fallback in case the structure is different
+        if hasattr(response, 'parts') and response.parts and response.parts[0].mime_type.startswith("image/"):
+             image_data = response.parts[0].data
+             generated_image = Image.open(BytesIO(image_data))
+             return generated_image, None
 
-        return None, "No image generated in the response"
+        # If no image is found, check for a text-based error from the model
+        if hasattr(response, 'text') and response.text:
+             return None, f"Model returned text instead of an image: {response.text[:200]}..."
 
+        return None, "No image generated in the response or unexpected format."
+            
     except Exception as e:
         return None, f"Error during generation: {repr(e)}"
     
