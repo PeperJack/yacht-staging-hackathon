@@ -162,7 +162,7 @@ def setup_api_client():
 def yacht_interior_staging(client, image, styling_prompt, custom_prompt=""):
     """
     Transforms the yacht interior with Google Gemini
-    Based on the official Google Home Staging documentation and user's original script logic.
+    using the correct preview model and robust API call syntax.
     """
     
     base_prompt = f"""Using the provided image of a yacht interior space, transform the decoration and styling while maintaining the architectural structure.
@@ -180,20 +180,20 @@ CRITICAL REQUIREMENTS FOR YACHT INTERIOR STAGING:
 - Maintain yacht-specific elements like portholes, built-in features, marine lighting
 - Create an aspirational interior that appeals to luxury yacht buyers/charterers
 
-Style: Professional yacht interior photography, luxury marine interior design, magazine quality, perfect lighting, high-end yacht staging for marketing purposes.
-""" # Note: J'ai enlevé le dernier ">" superflu ici, juste pour la propreté.
+Style: Professional yacht interior photography, luxury marine interior design, magazine quality, perfect lighting, high-end yacht staging for marketing purposes."""
 
     try:
-        model_id = "gemini-2.5-flash-image-preview"
+        # L'ingrédient secret ! On retourne au modèle "preview" qui a le pouvoir 
+        # de générer des images.
+        model_id = "models/gemini-2.5-flash-preview"
         
         response = client.models.generate_content(
             model=model_id,
             contents=[image, base_prompt],
             config=types.GenerateContentConfig(
                 temperature=0.3,
-                max_output_tokens=4096,
-                # NOUVEAU : Demander explicitement une image comme type de réponse
-                response_mime_type="image/png" 
+                max_output_tokens=4096
+                # Pas besoin de "response_mime_type", ce modèle spécial sait quoi faire.
             )
         )
         
@@ -214,8 +214,6 @@ Style: Professional yacht interior photography, luxury marine interior design, m
             generated_image = Image.open(BytesIO(image_parts[0]))
             return generated_image, None
         else:
-            # Si aucune image n'est trouvée, vérifier s'il y a un message texte (erreur, etc.)
-            # Cette partie ne devrait plus être atteinte si response_mime_type fonctionne.
             if hasattr(response, 'text') and response.text:
                 return None, f"Model returned text instead of an image: {response.text[:200]}..."
             return None, "No image found in the API response."
