@@ -185,7 +185,7 @@ Style: Professional yacht interior photography, luxury marine interior design, m
     try:
         # L'ingrédient secret ! On retourne au modèle "preview" qui a le pouvoir 
         # de générer des images.
-        model_id = "models/gemini-2.5-flash-preview"
+        model_id = "gemini-2.5-flash-image-preview"
         
         response = client.models.generate_content(
             model=model_id,
