@@ -2,9 +2,9 @@
 # -*- coding: utf-8 -*-
 
 """
-🍌 Yacht Interior Staging - Nano Banana Hackathon
-Yacht interior design with Google Gemini AI
-Based on the official Google Home Staging documentation
+⚓ Yacht Interior Staging Professional
+Transform yacht interiors with AI-powered design solutions
+Professional yacht staging for luxury marine properties
 """
 
 import os
@@ -21,54 +21,209 @@ load_dotenv()
 
 # Streamlit Configuration
 st.set_page_config(
-    page_title="🍌 Yacht Interior Staging - Nano Banana",
-    page_icon="🛥️",
+    page_title="Yacht Interior Staging Pro",
+    page_icon="⚓",
     layout="wide",
     initial_sidebar_state="collapsed"
 )
 
-# Custom CSS styles
+# Custom CSS styles - Professional Agency Design
 st.markdown("""
 <style>
-.main-header {
-    text-align: center;
-    padding: 2rem 0;
-    background: linear-gradient(135deg, #2C3E50 0%, #34495E 100%);
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700&display=swap');
+
+.main {
+    font-family: 'Montserrat', sans-serif;
+    background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+    min-height: 100vh;
+}
+
+.hero-section {
+    background: linear-gradient(135deg, #0f3460 0%, #16537e 50%, #2980b9 100%);
     color: white;
-    border-radius: 15px;
+    padding: 3rem 2rem;
+    border-radius: 20px;
     margin-bottom: 2rem;
-    box-shadow: 0 8px 32px rgba(0,0,0,0.3);
-}
-.style-card {
-    border: 2px solid #e0e0e0;
-    border-radius: 12px;
-    padding: 1.2rem;
-    margin: 0.5rem 0;
-    background: white;
-    box-shadow: 0 4px 6px rgba(0,0,0,0.1);
-    transition: all 0.3s ease;
-}
-.style-card:hover {
-    border-color: #3498db;
-    box-shadow: 0 6px 12px rgba(52, 152, 219, 0.2);
-}
-.result-container {
-    border: 3px solid #27AE60;
-    border-radius: 15px;
-    padding: 1rem;
-    background: linear-gradient(135deg, #f8fff8 0%, #e8f5e8 100%);
-}
-.banana-divider {
+    box-shadow: 0 20px 40px rgba(0,0,0,0.2);
     text-align: center;
-    font-size: 2rem;
+    position: relative;
+    overflow: hidden;
+}
+
+.hero-section::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><path d="M20 20h60v60H20z" fill="none" stroke="rgba(255,255,255,0.1)" stroke-width="0.5"/></svg>');
+    opacity: 0.3;
+}
+
+.hero-section > * {
+    position: relative;
+    z-index: 1;
+}
+
+.hero-title {
+    font-size: 3.5rem;
+    font-weight: 700;
+    margin-bottom: 0.5rem;
+    background: linear-gradient(45deg, #ffffff, #a8d8ea);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+
+.hero-subtitle {
+    font-size: 1.4rem;
+    font-weight: 300;
+    opacity: 0.9;
+    margin-bottom: 1rem;
+}
+
+.hero-description {
+    font-size: 1.1rem;
+    opacity: 0.8;
+    max-width: 600px;
+    margin: 0 auto;
+}
+
+.service-card {
+    background: white;
+    border-radius: 16px;
+    padding: 2rem;
+    margin: 1rem 0;
+    box-shadow: 0 8px 32px rgba(0,0,0,0.1);
+    border: 1px solid rgba(255,255,255,0.2);
+    transition: all 0.4s ease;
+    backdrop-filter: blur(10px);
+}
+
+.service-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 15px 45px rgba(41, 128, 185, 0.2);
+    border-color: #2980b9;
+}
+
+.style-option {
+    background: linear-gradient(135deg, #ffffff 0%, #f8fafc 100%);
+    border: 2px solid #e2e8f0;
+    border-radius: 12px;
+    padding: 1.5rem;
+    margin: 0.8rem 0;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    position: relative;
+    overflow: hidden;
+}
+
+.style-option:hover {
+    border-color: #2980b9;
+    background: linear-gradient(135deg, #f0f9ff 0%, #e0f2fe 100%);
+    transform: translateX(5px);
+}
+
+.style-option.selected {
+    border-color: #2980b9;
+    background: linear-gradient(135deg, #dbeafe 0%, #bfdbfe 100%);
+    box-shadow: 0 4px 20px rgba(41, 128, 185, 0.3);
+}
+
+.result-showcase {
+    background: linear-gradient(135deg, #ffffff 0%, #f0fdf4 100%);
+    border: 3px solid #22c55e;
+    border-radius: 20px;
+    padding: 2rem;
+    box-shadow: 0 10px 40px rgba(34, 197, 94, 0.2);
+}
+
+.upload-section {
+    background: white;
+    border: 3px dashed #cbd5e1;
+    border-radius: 16px;
+    padding: 2rem;
+    text-align: center;
+    transition: all 0.3s ease;
+    margin: 1rem 0;
+}
+
+.upload-section:hover {
+    border-color: #2980b9;
+    background: #f0f9ff;
+}
+
+.stats-container {
+    background: linear-gradient(135deg, #1e293b 0%, #334155 100%);
+    color: white;
+    padding: 1.5rem;
+    border-radius: 12px;
+    margin: 1rem 0;
+    text-align: center;
+}
+
+.agency-cta {
+    background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%);
+    color: white;
+    padding: 2rem;
+    border-radius: 16px;
+    text-align: center;
+    margin: 2rem 0;
+    box-shadow: 0 10px 30px rgba(245, 158, 11, 0.3);
+}
+
+.feature-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 1.5rem;
     margin: 2rem 0;
 }
-.security-notice {
-    background: #e8f4fd;
-    border-left: 4px solid #3498db;
-    padding: 1rem;
-    margin: 1rem 0;
+
+.feature-item {
+    background: white;
+    padding: 1.5rem;
+    border-radius: 12px;
+    text-align: center;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+    transition: transform 0.3s ease;
+}
+
+.feature-item:hover {
+    transform: translateY(-3px);
+}
+
+.btn-primary {
+    background: linear-gradient(135deg, #2563eb 0%, #1d4ed8 100%);
+    color: white;
+    border: none;
+    padding: 0.8rem 2rem;
     border-radius: 8px;
+    font-weight: 600;
+    transition: all 0.3s ease;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.btn-primary:hover {
+    background: linear-gradient(135deg, #1d4ed8 0%, #1e40af 100%);
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(37, 99, 235, 0.4);
+}
+
+.security-notice {
+    background: linear-gradient(135deg, #eff6ff 0%, #dbeafe 100%);
+    border-left: 4px solid #3b82f6;
+    padding: 1.5rem;
+    margin: 1rem 0;
+    border-radius: 0 12px 12px 0;
+}
+
+.divider {
+    height: 2px;
+    background: linear-gradient(90deg, transparent, #2980b9, transparent);
+    margin: 3rem 0;
+    border-radius: 1px;
 }
 </style>
 """, unsafe_allow_html=True)
@@ -81,7 +236,7 @@ INTERIOR_STYLES = {
         "prompt": "Transform this yacht interior into a modern luxury design with clean lines, contemporary furniture, premium materials like marble and brushed steel, neutral color palette with white, grey, and black accents, minimalist aesthetic, high-end finishes, and sophisticated lighting."
     },
     "classic_elegance": {
-        "name": "👑 Classic Elegance",
+        "name": "👑 Classic Elegance", 
         "description": "Timeless style, woodwork, leather and precious fabrics",
         "prompt": "Transform this yacht interior into classic elegant style with rich mahogany wood paneling, leather upholstery, brass fixtures, traditional nautical elements, warm color palette, crystal chandeliers, antique-inspired furniture, and timeless luxury finishes."
     },
@@ -118,7 +273,7 @@ INTERIOR_STYLES = {
 }
 
 def initialize_session_state():
-    """Initializes Streamlit session state variables"""
+    """Initialize Streamlit session state variables"""
     if 'generated_image' not in st.session_state:
         st.session_state.generated_image = None
     if 'original_image' not in st.session_state:
@@ -126,42 +281,33 @@ def initialize_session_state():
     if 'generation_time' not in st.session_state:
         st.session_state.generation_time = None
 
-# ▼▼▼ CODE CORRIGÉ ▼▼▼
 def setup_api_client():
-    """Configures the Google Gemini API client with environment variables"""
+    """Configure the Google Gemini API client with environment variables"""
     api_key = os.getenv('GOOGLE_GEMINI_API_KEY')
     
     if not api_key:
-        st.error("🔐 API key not configured. Check your .env file")
+        st.error("🔐 API Configuration Required")
         st.markdown("""
         <div class="security-notice">
-        <h4>🛡️ Secure configuration required</h4>
-        <p>Create a <code>.env</code> file in the project folder with:</p>
+        <h4>🛡️ Secure API Configuration</h4>
+        <p>Please create a <code>.env</code> file in your project directory with:</p>
         <code>GOOGLE_GEMINI_API_KEY=your_api_key_here</code>
         <br><br>
-        <p>Get your API key at: <a href="https://ai.google.dev/" target="_blank">https://ai.google.dev/</a></p>
+        <p>Obtain your API key at: <a href="https://ai.google.dev/" target="_blank">Google AI Studio</a></p>
         </div>
         """, unsafe_allow_html=True)
         return None
     
     try:
-        # Reverting to the older genai.Client() method
         client = genai.Client(api_key=api_key)
         return client
     except Exception as e:
-        st.error(f"❌ API configuration error: {repr(e)}")
+        st.error(f"❌ API Configuration Error: {repr(e)}")
         return None
-
-
-# ▼▼▼ REMPLACEZ VOTRE FONCTION PAR CETTE DERNIÈRE VERSION ▼▼▼
-
-# ▼▼▼ REMPLACEZ VOTRE FONCTION PAR CETTE VERSION PLUS SÉCURISÉE ▼▼▼
-
-# ▼▼▼ REMPLACEZ VOTRE FONCTION PAR CETTE VERSION DÉFINITIVE ▼▼▼
 
 def yacht_interior_staging(client, image, styling_prompt, custom_prompt=""):
     """
-    Transforms the yacht interior with Google Gemini
+    Transform yacht interior with Google Gemini
     using the correct preview model and robust API call syntax.
     """
     
@@ -183,8 +329,6 @@ CRITICAL REQUIREMENTS FOR YACHT INTERIOR STAGING:
 Style: Professional yacht interior photography, luxury marine interior design, magazine quality, perfect lighting, high-end yacht staging for marketing purposes."""
 
     try:
-        # L'ingrédient secret ! On retourne au modèle "preview" qui a le pouvoir 
-        # de générer des images.
         model_id = "gemini-2.5-flash-image-preview"
         
         response = client.models.generate_content(
@@ -193,11 +337,9 @@ Style: Professional yacht interior photography, luxury marine interior design, m
             config=types.GenerateContentConfig(
                 temperature=0.3,
                 max_output_tokens=4096
-                # Pas besoin de "response_mime_type", ce modèle spécial sait quoi faire.
             )
         )
         
-        # Initialiser une liste vide pour les parties d'image
         image_parts = []
         
         if (response.candidates and 
@@ -220,13 +362,12 @@ Style: Professional yacht interior photography, luxury marine interior design, m
             
     except Exception as e:
         return None, f"Error during generation: {repr(e)}"
-    
+
 def save_image_with_metadata(image, original_filename, styling_option):
-    """Saves the image with metadata"""
+    """Save the image with metadata"""
     timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
     filename = f"yacht_interior_{styling_option}_{timestamp}.png"
     
-    # Create the output directory if it doesn't exist
     os.makedirs("generated_interiors", exist_ok=True)
     filepath = os.path.join("generated_interiors", filename)
     
@@ -234,92 +375,121 @@ def save_image_with_metadata(image, original_filename, styling_option):
     return filepath
 
 def display_comparison(original_image, generated_image):
-    """Displays the before/after comparison"""
+    """Display the before/after comparison"""
     col1, col2 = st.columns(2)
     
     with col1:
-        st.subheader("🏠 Before - Original")
-        st.image(original_image, use_column_width=True, caption="Original interior")
+        st.subheader("📸 Original Interior")
+        st.image(original_image, use_column_width=True, caption="Before transformation")
     
     with col2:
-        st.subheader("✨ After - Gemini Staging")
-        st.image(generated_image, use_column_width=True, caption="Transformed interior")
+        st.subheader("✨ Transformed Design")
+        st.image(generated_image, use_column_width=True, caption="After AI staging")
 
 def main():
     """Main Streamlit application"""
     initialize_session_state()
     
-    # Main header
+    # Hero Section
     st.markdown("""
-    <div class="main-header">
-        <h1>🍌 Yacht Interior Staging Pro</h1>
-        <h2>Nano Banana Hackathon</h2>
-        <p>Transform the interior design of your yachts with Google Gemini AI</p>
-        <p><strong>🏆 Powered by Google Gemini 2.5 Flash</strong></p>
+    <div class="hero-section">
+        <div class="hero-title">⚓ Yacht Interior Staging</div>
+        <div class="hero-subtitle">Professional AI-Powered Design Solutions</div>
+        <div class="hero-description">
+            Transform luxury yacht interiors with cutting-edge artificial intelligence. 
+            Professional staging solutions for yacht brokers, marine architects, and luxury property specialists.
+        </div>
     </div>
     """, unsafe_allow_html=True)
     
-    # Secure API configuration
-    client = setup_api_client() # Changed from model to client
+    # API Configuration
+    client = setup_api_client()
     
-    if not client: # Changed from model to client
+    if not client:
         st.stop()
     
-    # Main interface
+    # Professional Features Section
+    st.markdown("""
+    <div class="feature-grid">
+        <div class="feature-item">
+            <h3>🎨 8+ Design Styles</h3>
+            <p>From modern luxury to classic elegance, covering all high-end interior design trends</p>
+        </div>
+        <div class="feature-item">
+            <h3>⚡ Instant Results</h3>
+            <p>Professional-grade transformations in seconds using Google Gemini AI</p>
+        </div>
+        <div class="feature-item">
+            <h3>🛥️ Yacht-Specific</h3>
+            <p>Specialized for marine environments with safety and space considerations</p>
+        </div>
+        <div class="feature-item">
+            <h3>📈 Sales Ready</h3>
+            <p>Magazine-quality results perfect for marketing materials and listings</p>
+        </div>
+    </div>
+    """, unsafe_allow_html=True)
+    
+    st.markdown('<div class="divider"></div>', unsafe_allow_html=True)
+    
+    # Main Interface
     col1, col2 = st.columns([1, 1])
     
     with col1:
-        st.header("📤 Upload & Configuration")
+        st.markdown("""
+        <div class="service-card">
+            <h2>📤 Upload & Configuration</h2>
+        </div>
+        """, unsafe_allow_html=True)
         
-        # Image upload
+        # Image Upload
         uploaded_file = st.file_uploader(
-            "Select a yacht interior photo",
+            "Select yacht interior photograph",
             type=['png', 'jpg', 'jpeg'],
-            help="Can be an empty room, already furnished, living room, cabin, galley, etc. (max 10MB)"
+            help="Upload high-resolution images for best results (max 10MB)"
         )
         
         if uploaded_file:
-            # Load and display the original image
+            # Load and display original image
             original_image = Image.open(uploaded_file)
             st.session_state.original_image = original_image
             
-            st.image(original_image, caption="Original interior", use_column_width=True)
+            st.image(original_image, caption="Original Interior", use_column_width=True)
             
-            # Decoration style selection
-            st.subheader("🎨 Decoration Style")
+            # Design Style Selection
+            st.subheader("🎨 Select Design Style")
             
-            # Display style options as cards
             styling_option = st.selectbox(
-                "Choose your decoration style:",
+                "Choose your preferred interior design style:",
                 options=list(INTERIOR_STYLES.keys()),
                 format_func=lambda x: INTERIOR_STYLES[x]["name"]
             )
             
-            # Display the description of the selected style
+            # Style Description
             selected_style = INTERIOR_STYLES[styling_option]
             st.markdown(f"""
-            <div class="style-card">
+            <div class="style-option selected">
                 <h4>{selected_style["name"]}</h4>
-                <p><strong>Description:</strong> {selected_style["description"]}</p>
+                <p><strong>Style Profile:</strong> {selected_style["description"]}</p>
             </div>
             """, unsafe_allow_html=True)
             
-            # Customization option
-            st.subheader("🎯 Customization (Optional)")
+            # Custom Requirements
+            st.subheader("🎯 Custom Requirements")
             custom_prompt = st.text_area(
-                "Specific requests:",
-                placeholder="Ex: Add green plants, change the cushion color to navy blue, add nautical elements...",
-                help="Specify your particular wishes in addition to the chosen style"
+                "Additional specifications:",
+                placeholder="e.g., Add nautical artwork, change color scheme to navy and gold, include plants, specific furniture requests...",
+                help="Specify any additional requirements or modifications to the selected style"
             )
             
-            # Generation button
-            if st.button("🚀 Transform the Interior", type="primary", use_container_width=True):
-                with st.spinner("🍌 Nano Banana is generating your new style..."):
+            # Generation Button
+            if st.button("🚀 Generate Professional Staging", type="primary", use_container_width=True):
+                with st.spinner("🎨 Creating your professional yacht interior design..."):
                     start_time = datetime.now()
                     
-                    # Generation
+                    # Generate transformation
                     generated_image, error = yacht_interior_staging(
-                        client, # Changed from model to client
+                        client,
                         original_image, 
                         selected_style["prompt"],
                         custom_prompt
@@ -332,77 +502,106 @@ def main():
                         st.session_state.generated_image = generated_image
                         st.session_state.generation_time = generation_time
                         
-                        st.success(f"✅ New style created in {generation_time:.1f} seconds!")
+                        st.success(f"✅ Professional staging completed in {generation_time:.1f} seconds!")
                     else:
                         st.error(f"❌ {error}")
     
     with col2:
-        st.header("✨ Result")
+        st.markdown("""
+        <div class="service-card">
+            <h2>✨ Professional Results</h2>
+        </div>
+        """, unsafe_allow_html=True)
         
         if st.session_state.generated_image:
-            st.markdown('<div class="result-container">', unsafe_allow_html=True)
-            st.image(st.session_state.generated_image, caption="Transformed interior", use_column_width=True)
+            st.markdown('<div class="result-showcase">', unsafe_allow_html=True)
+            st.image(st.session_state.generated_image, caption="Professionally Staged Interior", use_column_width=True)
             st.markdown('</div>', unsafe_allow_html=True)
             
-            # Action buttons
+            # Action Buttons
             col_download, col_save = st.columns(2)
             
             with col_download:
-                # Prepare for download
+                # Prepare download
                 img_buffer = BytesIO()
                 st.session_state.generated_image.save(img_buffer, format="PNG", quality=95)
                 img_data = img_buffer.getvalue()
                 
                 st.download_button(
-                    "💾 Download HD",
+                    "💾 Download High-Res",
                     data=img_data,
-                    file_name=f"yacht_interior_staged_{datetime.now().strftime('%Y%m%d_%H%M%S')}.png",
+                    file_name=f"yacht_staging_{datetime.now().strftime('%Y%m%d_%H%M%S')}.png",
                     mime="image/png",
                     use_container_width=True
                 )
             
             with col_save:
-                if st.button("💽 Save locally", use_container_width=True):
+                if st.button("💽 Save to Gallery", use_container_width=True):
                     if uploaded_file:
                         filepath = save_image_with_metadata(
                             st.session_state.generated_image,
                             uploaded_file.name,
                             styling_option
                         )
-                        st.success(f"Saved: {filepath}")
+                        st.success(f"✅ Saved: {filepath}")
             
-            # Statistics
+            # Performance Stats
             if st.session_state.generation_time:
-                st.info(f"⏱️ Generation time: {st.session_state.generation_time:.1f}s")
+                st.markdown(f"""
+                <div class="stats-container">
+                    <h4>⚡ Performance Metrics</h4>
+                    <p>Generation Time: <strong>{st.session_state.generation_time:.1f} seconds</strong></p>
+                    <p>Model: <strong>Google Gemini 2.5 Flash</strong></p>
+                    <p>Quality: <strong>Professional Grade</strong></p>
+                </div>
+                """, unsafe_allow_html=True)
         
         else:
-            st.info("🎯 Your transformed interior will appear here")
+            st.info("🎯 Your transformed yacht interior will appear here")
             st.markdown("""
-            ### 💡 Supported interior types:
-            - **Saloons**: Reception and relaxation areas
-            - **Cabins**: Bedrooms
-            - **Galleys**: Kitchen and preparation areas
-            - **Empty spaces**: To be fully decorated
-            - **Covered decks**: Protected outdoor areas
+            ### 🛥️ Supported Yacht Spaces:
+            - **Main Salons** - Primary entertainment and dining areas
+            - **Master Suites** - Owner's cabins and VIP staterooms  
+            - **Guest Cabins** - Visitor accommodations
+            - **Galley Areas** - Kitchen and food preparation spaces
+            - **Sky Lounges** - Upper deck entertainment areas
+            - **Covered Decks** - Protected outdoor living spaces
             """)
     
-    # Before/After comparison
+    # Before/After Comparison
     if st.session_state.original_image and st.session_state.generated_image:
-        st.markdown('<div class="banana-divider">🍌🍌🍌</div>', unsafe_allow_html=True)
-        st.header("📊 Before/After Comparison")
+        st.markdown('<div class="divider"></div>', unsafe_allow_html=True)
+        st.markdown("""
+        <div class="service-card">
+            <h2>📊 Before & After Comparison</h2>
+        </div>
+        """, unsafe_allow_html=True)
         display_comparison(st.session_state.original_image, st.session_state.generated_image)
     
-    # Footer information
+    # Professional CTA
+    st.markdown("""
+    <div class="agency-cta">
+        <h2>🏆 Professional Yacht Interior Staging</h2>
+        <p>Elevate your yacht listings with AI-powered professional staging solutions. 
+        Perfect for yacht brokers, marine real estate professionals, and luxury property specialists.</p>
+        <p><strong>✨ Powered by Google Gemini 2.5 Flash - The Future of Interior Design</strong></p>
+    </div>
+    """, unsafe_allow_html=True)
+    
+    # Footer
     st.markdown("---")
     st.markdown("""
-    ### 🍌 Nano Banana Hackathon Information
-    - **Specialty**: Luxury yacht interior design
-    - **AI Model**: Google Gemini 2.5 Flash
-    - **Technique**: Home Staging adapted for marine environments
-    - **Security**: Secure API via environment variables
-    - **Market**: Nautical agents, yacht brokers, marine architects
+    ### ⚓ Professional Yacht Staging Solutions
+    **Specialized Services:**
+    - Luxury yacht interior transformation
+    - AI-powered design visualization  
+    - Professional-grade staging for sales & charter
+    - Marine-specific design considerations
+    - High-resolution marketing materials
     
-    **🏆 Innovation: First yacht interior staging tool with generative AI**
+    **Target Markets:** Yacht brokers, marine architects, luxury property specialists, charter companies
+    
+    **Technology:** Google Gemini 2.5 Flash AI • Professional marine interior design algorithms
     """)
 
 if __name__ == "__main__":
